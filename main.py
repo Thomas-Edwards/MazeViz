@@ -18,6 +18,7 @@ STARTING_Y = (SCREEN_HEIGHT - ROWS * SIZE) / 2
 
 # Create graph
 graph = Graph(ROWS, COLUMNS, SIZE, STARTING_X, STARTING_Y)
+graph.create_kruskal_maze()
 
 # Run until the user asks to quit
 running = True

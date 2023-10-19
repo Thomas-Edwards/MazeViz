@@ -1,3 +1,5 @@
+from random import shuffle
+
 from tile import Tile
 
 class Graph:
@@ -18,3 +20,46 @@ class Graph:
         for i in range(self.rows):
             for j in range(self.columns):
                 self.tiles[i][j].draw(screen)
+
+    def create_kruskal_maze(self):
+
+        # Create list of edges
+        edges = []
+        for i in range(self.rows-1):
+            for j in range(self.columns - 1):
+                edges.append(((i, j), (i+1, j)))
+                edges.append(((i, j), (i, j+1)))
+        for i in range(self.rows - 1):
+            edges.append(((i, self.columns-1), (i+1, self.columns-1)))
+        for j in range(self.columns - 1):
+            edges.append(((self.rows-1, j), (self.rows-1, j+1)))
+        shuffle(edges)
+
+        # Create a set for each node
+        trees = dict()
+        for i in range(self.rows):
+            for j in range(self.columns):
+                trees[(i, j)] = set([(i, j)])
+
+
+        while len(edges) != 0:
+            edge = edges.pop()
+            if len(trees[edge[0]].intersection(trees[edge[1]])) != 0:
+                continue
+
+            combined = trees[edge[0]].union(trees[edge[1]])
+            for member in combined:
+                trees[member] = combined
+
+            # Get rid of visual barrier
+            row1, column1 = edge[0]
+            row2, column2 = edge[1]
+
+            if row2 > row1:
+                self.tiles[row1][column1].bottom_closed = False
+                self.tiles[row2][column2].top_closed = False
+            else:
+                self.tiles[row1][column1].right_closed = False
+                self.tiles[row2][column2].left_closed = False
+
+
