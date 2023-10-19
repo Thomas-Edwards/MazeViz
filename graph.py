@@ -1,4 +1,6 @@
+import pygame
 from random import shuffle
+from time import sleep
 
 from tile import Tile
 
@@ -8,6 +10,7 @@ class Graph:
         self.rows = rows
         self.columns = columns
         self.tiles = [[0 for i in range(self.columns)] for j in range(self.rows)]
+        self.is_maze = False
 
         # Initialize each tile
         for i in range(self.rows):
@@ -21,7 +24,10 @@ class Graph:
             for j in range(self.columns):
                 self.tiles[i][j].draw(screen)
 
-    def create_kruskal_maze(self):
+    def create_kruskal_maze(self, screen, delay):
+        if self.is_maze:
+            return
+        self.is_maze = True
 
         # Create list of edges
         edges = []
@@ -41,8 +47,11 @@ class Graph:
             for j in range(self.columns):
                 trees[(i, j)] = set([(i, j)])
 
-
         while len(edges) != 0:
+            screen.fill((255, 255, 255))
+            self.draw(screen)
+            pygame.display.flip()
+            pygame.time.wait(delay) # Helps us see the generation on pygame
             edge = edges.pop()
             if len(trees[edge[0]].intersection(trees[edge[1]])) != 0:
                 continue

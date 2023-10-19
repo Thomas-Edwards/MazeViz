@@ -13,12 +13,12 @@ screen = pygame.display.set_mode([SCREEN_LENGTH, SCREEN_HEIGHT], pygame.RESIZABL
 ROWS = 15
 COLUMNS = 15
 SIZE = 40
+KRUSKAL_DELAY = 10
 STARTING_X = (SCREEN_LENGTH - COLUMNS * SIZE) / 2
 STARTING_Y = (SCREEN_HEIGHT - ROWS * SIZE) / 2
 
 # Create graph
 graph = Graph(ROWS, COLUMNS, SIZE, STARTING_X, STARTING_Y)
-graph.create_kruskal_maze()
 
 # Run until the user asks to quit
 running = True
@@ -33,6 +33,7 @@ while running:
     screen.fill((255, 255, 255))
 
     # Draw a solid blue circle in the center
+    graph.create_kruskal_maze(screen, KRUSKAL_DELAY)
     graph.draw(screen)
 
     # Flip the display
