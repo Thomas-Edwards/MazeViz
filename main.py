@@ -1,9 +1,23 @@
 import pygame
+from graph import Graph
 
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([1000, 750], pygame.RESIZABLE)
+
+SCREEN_LENGTH = 1000
+SCREEN_HEIGHT = 750
+
+screen = pygame.display.set_mode([SCREEN_LENGTH, SCREEN_HEIGHT], pygame.RESIZABLE)
+
+ROWS = 15
+COLUMNS = 15
+SIZE = 40
+STARTING_X = (SCREEN_LENGTH - COLUMNS * SIZE) / 2
+STARTING_Y = (SCREEN_HEIGHT - ROWS * SIZE) / 2
+
+# Create graph
+graph = Graph(ROWS, COLUMNS, SIZE, STARTING_X, STARTING_Y)
 
 # Run until the user asks to quit
 running = True
@@ -18,8 +32,7 @@ while running:
     screen.fill((255, 255, 255))
 
     # Draw a solid blue circle in the center
-    pygame.draw.line(screen, (0, 0, 0), (30, 30), (60, 30), width=3)
-    pygame.draw.line(screen, (0, 0, 0), (30, 30), (30, 60), width=3)
+    graph.draw(screen)
 
     # Flip the display
     pygame.display.flip()
