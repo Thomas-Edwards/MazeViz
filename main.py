@@ -1,7 +1,6 @@
 import pygame
 from graph import Graph
-from text import bfs_text, a_star_text, dfs_text
-from math import log2
+from text import bfs_text, a_star_text, dfs_text, new_graph_text, starting_point_text, ending_point_text
 
 pygame.init()
 
@@ -12,14 +11,12 @@ SCREEN_HEIGHT = 750
 
 screen = pygame.display.set_mode([SCREEN_LENGTH, SCREEN_HEIGHT], pygame.RESIZABLE)
 
-ROWS = 20
-COLUMNS = 20
+ROWS = 10
+COLUMNS = 10
 
-#SIZE = 104 - int(log2(ROWS * COLUMNS)*8.7)
-#SIZE = 104 - int(log2(ROWS * COLUMNS)*log2(ROWS * COLUMNS) * log2(ROWS * COLUMNS))
 SCREEN_CONSTRAINT = min(SCREEN_LENGTH, SCREEN_HEIGHT)
 LENGTH_RESTRAINT = max(ROWS, COLUMNS)
-SIZE = (0.8 * SCREEN_CONSTRAINT) // (LENGTH_RESTRAINT)
+SIZE = (0.8 * SCREEN_CONSTRAINT) // LENGTH_RESTRAINT
 
 KRUSKAL_DELAY = 200 - (ROWS * COLUMNS)
 STARTING_X = (SCREEN_LENGTH - COLUMNS * SIZE) / 2
@@ -43,9 +40,17 @@ while running:
 
     if not graph.is_maze:
         graph.create_kruskal_maze(screen, KRUSKAL_DELAY)
+    else:
+        pygame.draw.rect(screen, (0, 0, 0), (int(SCREEN_LENGTH / 3), int(SCREEN_HEIGHT * 23 / 25), int(SCREEN_LENGTH / 3), int(SCREEN_HEIGHT / 25)), 2)
+        screen.blit(new_graph_text, (int(SCREEN_LENGTH * 1.2 / 3), int(SCREEN_HEIGHT * 23.1 / 25)))
+        if pygame.mouse.get_pressed()[0] and int(SCREEN_HEIGHT * 23 / 25) < pygame.mouse.get_pos()[1] < int(SCREEN_HEIGHT * 24 / 25) and int(SCREEN_LENGTH / 3) < pygame.mouse.get_pos()[0] < int(SCREEN_LENGTH*2 / 3):
+            graph = Graph(ROWS, COLUMNS, SIZE, STARTING_X, STARTING_Y, TILE_WIDTH)
+
     if graph.start_tile == (-1, -1):
+        screen.blit(starting_point_text, (int(SCREEN_LENGTH * 1.2 / 3), int(SCREEN_HEIGHT * 1.1 / 25)))
         graph.pick_start_tile(screen)
     if graph.start_tile != (-1, -1) and graph.end_tile == (-1, -1):
+        screen.blit(ending_point_text, (int(SCREEN_LENGTH * 1.2 / 3), int(SCREEN_HEIGHT * 1.1 / 25)))
         graph.pick_end_tile(screen)
 
     if graph.start_tile != (-1, -1) and graph.end_tile != (-1, -1):
@@ -67,9 +72,6 @@ while running:
             graph.dfs(screen)
 
     graph.draw(screen)
-    # Flip the display
     pygame.display.flip()
-    #print(pygame.mouse.get_pos())
 
-# Done! Time to quit.
 pygame.quit()

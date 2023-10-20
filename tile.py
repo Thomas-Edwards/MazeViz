@@ -38,5 +38,6 @@ class Tile:
             self.fill(screen, (0, 0, 255))
         elif self.visited:
             self.fill(screen, (0, 255, 0))
+
     def fill(self, screen, color):
         pygame.draw.rect(screen, color, (self.top_left[0]+self.width*2, self.top_left[1]+self.width*2, self.size-self.width*4, self.size-self.width*4))

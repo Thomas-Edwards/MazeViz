@@ -4,6 +4,7 @@ from time import sleep
 
 from tile import Tile
 
+
 class Graph:
     def __init__(self, rows, columns, tile_size, start_x, start_y, tile_width):
         Tile.size = tile_size
@@ -89,7 +90,6 @@ class Graph:
                     queue.append((row, column+1))
 
     def dfs(self, screen):
-        print("1 2 3 LETS GO BITCH")
         self.reset_visited()
         queue = [self.start_tile]
         found_end = False
@@ -116,7 +116,6 @@ class Graph:
                     queue.append((row, column+1))
 
     def a_star(self, screen):
-        print("1 2 3 LETS GO BITCH")
         self.reset_visited()
         queue = [self.start_tile]
         found_end = False
@@ -190,5 +189,3 @@ class Graph:
             else:
                 self.tiles[row1][column1].right_closed = False
                 self.tiles[row2][column2].left_closed = False
-
-
