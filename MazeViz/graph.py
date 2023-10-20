@@ -2,7 +2,7 @@ import pygame
 from random import shuffle
 from time import sleep
 
-from tile import Tile
+from .tile import Tile
 
 
 class Graph:
